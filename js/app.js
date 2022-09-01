@@ -20,7 +20,6 @@
 
 /**
  * Define Global Variables
- *
 */
 const sections = document.querySelectorAll('.section');
 const navBar = document.querySelector('#navbar__list');
@@ -38,43 +37,46 @@ const navBar = document.querySelector('#navbar__list');
 
 // build the nav
 const fragment = document.createDocumentFragment();
-
 for (let i = 0 ; i< sections.length ; i++)
 {
   //take section name
   const liElement = document.createElement('li');
   const secName = sections[i].querySelector('h2').textContent;
 
-  liElement.innerHTML = `<a href = '#${sections[i].getAttribute('id')}' class = 'navbar__menu menu__Link'> ${secName}</a>`;
+  liElement.innerHTML = `<a href = '#${sections[i].getAttribute('id')}'
+      class = 'navbar__menu menu__Link'> ${secName}</a>`;
   const anchorElement = liElement.querySelector('a');
   fragment.appendChild(liElement);
 
-// Add class 'active' to section when near top of viewport
-document.addEventListener('scroll', function(){
 
-const bound = sections[i].getBoundingClientRect();
-if (bound['top'] >= -300 && bound ['top'] < 200) {
-//removing your-active-class class from all sections
-  for(let k = 0; k<sections.length; k++){
-    sections[k].classList.remove('your-active-class');
+  // Scroll to anchor ID using scrollTO event
+  document.addEventListener('scroll', function(){
+
+  const bound = sections[i].getBoundingClientRect();
+  if (bound['top'] >= -300 && bound ['top'] < 200) {
+    //removing your-active-class class from all sections
+    for(let k = 0; k<sections.length; k++){
+      sections[k].classList.remove('your-active-class');
     };
-    // Set sections as active
-    sections[i].classList.add('your-active-class');
-    anchorElement.classList.add('your-active-class')
+
+      // Add class 'active' to section when near top of viewport
+      sections[i].classList.add('your-active-class');
+      anchorElement.classList.add('your-active-class')
   }
   else
   {
     sections[i].classList.remove('your-active-class');
     anchorElement.classList.remove('your-active-class');
   };
-});
+  });
 
-// Scroll to anchor ID using scrollTO event
-liElement.addEventListener('click',function(event){
-  event.preventDefault();
   // go to section when click on the navList
-  sections[i].scrollIntoView({behavior: 'smooth',block:'center',inline:'nearest'});
-});
+  liElement.addEventListener('click',function(event){
+  event.preventDefault();
+
+  sections[i].scrollIntoView({behavior: 'smooth',block:'center',
+      inline:'nearest'});
+  });
 };
 navBar.appendChild(fragment);
 /**
